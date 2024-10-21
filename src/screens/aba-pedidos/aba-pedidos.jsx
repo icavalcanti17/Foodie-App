@@ -1,10 +1,14 @@
 import { FlatList, Image, Text, View } from "react-native";
 import { pedidos } from "../../constants/dados.js";
 import icons from "../../constants/icons.js";
-import { styles } from "./pedidos.style.js";
+import { styles } from "./aba-pedidos.style.js";
 import Pedido from "../../components/pedido/pedido.jsx";
 
-function Pedidos() {
+function AbaPedidos(props) {
+  function DetalhePedido() {
+    props.navigation.navigate("detalhe-pedido");
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -12,11 +16,16 @@ function Pedidos() {
         keyExtractor={(ped) => ped.id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => {
-          return <Pedido logotipo={item.logotipo}
-          nome={item.nome}
-          valor={item.vl_total}
-          dt_pedido={item.dt_pedido}
-          status={item.status} />;
+          return (
+            <Pedido
+              logotipo={item.logotipo}
+              nome={item.nome}
+              valor={item.vl_total}
+              dt_pedido={item.dt_pedido}
+              status={item.status}
+              onClickPedido={DetalhePedido}
+            />
+          );
         }}
         contentContainerStyle={styles.containerList}
         ListEmptyComponent={() => {
@@ -32,4 +41,4 @@ function Pedidos() {
   );
 }
 
-export default Pedidos;
+export default AbaPedidos;

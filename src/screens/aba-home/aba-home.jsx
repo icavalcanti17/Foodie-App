@@ -1,22 +1,28 @@
-import { Image, View, Text, ScrollView } from "react-native";
-import { styles } from "./home.style.js";
+import { Image, View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { styles } from "./aba-home.style.js";
 import icons from "../../constants/icons.js";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
 import TextBox from "../../components/textbox/textbox.jsx";
+import { useState } from "react";
 import Categorias from "../../components/categorias/categorias.jsx";
-import { banners, categorias, restaurantes } from "../../constants/dados.js";
+import { categorias, banners, restaurantes } from "../../constants/dados.js";
 import Banners from "../../components/banners/banners.jsx";
-import Restaurante from "../../components/restaurantes/restaurante.jsx";
+import Restaurante from "../../components/restaurante/restaurante.jsx";
 
-function Home(props) {
+function AbaHome(props) {
+  function OpenCardapio() {
+    props.navigation.navigate("cardapio");
+  }
+
   const [busca, setBusca] = useState("");
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerBar}>
         <Image source={icons.logo} style={styles.logo} />
-        <Image source={icons.carrinho} style={styles.cart} />
+        <TouchableOpacity onPress={() => props.navigation.navigate("checkout")}>
+          <Image source={icons.carrinho} style={styles.cart} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.busca}>
@@ -32,8 +38,6 @@ function Home(props) {
 
         <Banners dados={banners} />
 
-        <Text style={styles.destaques}>Destaques</Text>
-
         {restaurantes.map((restaurante, index) => {
           return (
             <View key={index}>
@@ -41,7 +45,8 @@ function Home(props) {
                 logotipo={restaurante.logotipo}
                 nome={restaurante.nome}
                 endereco={restaurante.endereco}
-                icone={icons.coracao}
+                icone={icons.favoritoFull}
+                onPress={OpenCardapio}
               />
             </View>
           );
@@ -51,4 +56,4 @@ function Home(props) {
   );
 }
 
-export default Home;
+export default AbaHome;
